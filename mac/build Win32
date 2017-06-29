@@ -1,0 +1,25 @@
+#!/bin/sh
+clear
+echo "Press Ctrl+c at any time to quit."
+
+defaultN=`basename $PWD`
+read -p "name:" inputN
+if [ ! -n "$inputN" ];then
+    name=$defaultN
+else 
+    name=$inputN
+fi
+defaultV="1.0.0"
+read -p "version($defaultV):" inputV
+if [ ! -n "$inputV" ];then
+    version=$defaultV
+else 
+    version=$inputV
+fi
+echo $version
+echo "building..."
+CGO_ENABLED=0
+GOOS=windows
+GOARCH=386
+go build -o $name.$version.exe main.go
+echo "end..."

@@ -1,0 +1,52 @@
+#!/bin/sh
+# 清除屏幕
+clear
+echo "Press Ctrl+c at any time to quit."
+# 获取当前目录名称
+defaultN=`basename $PWD`
+# 应用名称
+read -p "name:" inputN
+if [ ! -n "$inputN" ];then
+    name=$defaultN
+else 
+    name=$inputN
+fi
+
+# 版本号
+defaultV="1.0.0"
+read -p "version($defaultV):" inputV
+if [ ! -n "$inputV" ];then
+    version=$defaultV
+else 
+    version=$inputV
+fi
+echo $version
+
+# 开始编译
+echo "building..."
+CGO_ENABLED=0
+# GOOS：目标平台的操作系统(darwin、freebsd、linux、windows)
+# GOARCH：目标平台的体系架构(386、amd64、arm)
+
+# win
+GOOS=windows
+GOARCH=386
+go build -o ${name}.win.32.${version}.exe main.go
+GOARCH=amd64
+go build -o ${name}.win.64.${version}.exe main.go
+
+# linux
+GOOS=linux
+GOARCH=386
+go build -o ${name}.linux.32.${version} main.go
+GOARCH=amd64
+go build -o ${name}.linux.64.${version} main.go
+
+# mac
+GOOS=darwin
+GOARCH=386
+go build -o ${name}.mac.32.${version} main.go
+GOARCH=amd64
+go build -o ${name}.mac.64.${version} main.go
+
+echo "end..."
