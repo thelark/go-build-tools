@@ -20,8 +20,8 @@ if defined version (
 )
 echo building...
 SET CGO_ENABLED=0
-SET GOOS=windows
+SET GOOS=darwin
 SET GOARCH=amd64
-go build -o %name%.%version%.exe main.go
+go build -o %name%.%version% main.go
 echo end...
 pause
